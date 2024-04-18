@@ -1,2 +1,2 @@
-# summar-sci
-Scientific research article summarizer using a fine-tuned gpt 3.5 turbo model.
+# SummarSci
+SummarSci is a scientific research article summarizer that uses a fine-tuned gpt 3.5 turbo model.
