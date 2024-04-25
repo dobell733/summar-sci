@@ -1,47 +1,29 @@
-// import logo from './logo.svg';
-// import './App.css';
+//import dependencies
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
+//import components and pages
+import Nav from './components/Nav.js';
+import HomePage from './pages/HomePage.js';
+import AboutPage from './pages/AboutPage.js';
+import HelpPage from './pages/HelpPage.js';
+import ContactPage from './pages/ContactPage.js';
 
-// export default App;
-
-import React, { useEffect, useState } from 'react';
+//import style and images
+import './App.css';
 
 function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api')
-      .then(response => response.json())
-      .then(data => setMessage(data.message));
-  }, []);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        {message}
-      </header>
-    </div>
-  );
-}
+    <BrowserRouter>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} /> 
+        <Route path="/help" element={<HelpPage />} /> 
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
+    </BrowserRouter>
+    );
+  }
 
 export default App;
