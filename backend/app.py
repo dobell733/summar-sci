@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -11,8 +11,9 @@ def upload_file():
 
     pdf_file = request.files['pdfFile']
 
-    # Do something with the PDF file, such as saving it
-    pdf_file.save('uploaded_file.pdf')
+    # # Do something with the PDF file, such as saving it
+    # # throw in some type of threading logic.
+    pdf_file.save('uploads/' + pdf_file.filename)
 
     return 'File uploaded successfully', 200
 
