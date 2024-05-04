@@ -19,6 +19,7 @@ coverage.xml
 .git
 *.pot
 *.mo
+.env
 
 # React
 node_modules/
