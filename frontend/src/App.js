@@ -22,6 +22,10 @@ function App() {
         <Route path="/help" element={<HelpPage />} /> 
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
+
+      <footer>
+        <p><cite>&copy; 2024 Aaron Anderson, Dominic Bell, Jonathan Lau </cite></p>
+      </footer>
     </BrowserRouter>
     );
   }
