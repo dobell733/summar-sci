@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 function Nav() {
   return (
     <nav className="nav">
-      <a href="/" className="site-title">SummarSci</a>
+      <h href="/" className="site-title">SummarSci</h>
       <ul>
         <li>
           <Link to="/">Home</Link>

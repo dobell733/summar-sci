@@ -6,7 +6,10 @@ import React from 'react';
 function HelpPage() {
     return (
         <>
-            <p>This is the Help Page</p>
+            <h1>Help</h1>
+            <article>
+                <p>Intructions will be written when functionality is finalized. Also include images along with steps</p>
+            </article>
         </>
     );
 }
