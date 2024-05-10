@@ -47,3 +47,6 @@ async def summarize():
     client.delete(key)
     
     return summary
+
+if __name__ == '__main__':
+    app.run(debug=True)
