@@ -108,3 +108,7 @@ p {
   font-family: "Roboto", sans-serif;
   color: var(--DarkGray);
 }
+
+.paragraph-indent {
+  text-indent: 2em;
+}

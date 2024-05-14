@@ -1,52 +1,46 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from google.cloud import datastore
+from google.cloud import storage
+from file_summarization.summarizer import summarize_file
 
 app = Flask(__name__)
-CORS(app)  # Allows the backend to receive requests from the frontend
+CORS(app)
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
+@app.route('/summarize', methods=['POST'])
+async def summarize():
+    """
+    Endpoint for summarizing a PDF file.
+
+    This endpoint receives a PDF file in the request and saves it to Google Cloud Storage.
+    It then passes the cloud storage path of the file to the `summarize_file` function to generate a summary.
+    Finally, it deletes the file from Google Cloud Storage and returns the summary as a JSON response.
+
+    Returns:
+        A JSON response containing the summary of the PDF file.
+
+    Raises:
+        400: If no file part is found in the request.
+    """
     if 'pdfFile' not in request.files:
         return 'No file part', 400
 
     pdf_file = request.files['pdfFile']
 
-    # # Do something with the PDF file, such as saving it
-    # # throw in some type of threading logic.
-    pdf_file.save('uploads/' + pdf_file.filename)
+    # Save the file to Google Cloud Storage
+    storage_client = storage.Client()
+    bucket_name = 'temporary_reasearch_article_storage'
+    bucket = storage_client.get_bucket(bucket_name)
+    blob = bucket.blob(pdf_file.filename) # Create blob with the name of the file
+    blob.upload_from_file(pdf_file) # Upload the file to the blob
 
-    return 'File uploaded successfully', 200
+    # Pass cloud storage path to the summarize_file function
+    summary = await summarize_file(f'gs://{bucket_name}/{pdf_file.filename}')
 
+    # Delete the file from Google Cloud Storage
+    blob.delete()
 
-
-@app.route('/api', methods=['GET'])
-def respond():
-    return jsonify({"message": "Hello from Flask!"})
-
-@app.route('/summarize', methods=['POST'])
-async def summarize():
-    # Assuming the PDF file is sent as a file in the request
-    pdf_file = request.files['pdf']
-    
-    # Save the PDF file to Google Cloud Datastore
-    client = datastore.Client()
-    key = client.key('PDF')
-    entity = datastore.Entity(key=key)
-    entity['filename'] = pdf_file.filename
-    entity['content'] = pdf_file.read()
-    client.put(entity)
-    
-    # Get the file path in Google Cloud Datastore
-    pdf_path = key.path
-    
-    # Call the summarize_file function from summarizer.py
-    summary = await summarize_file(pdf_path)
-    
-    # Delete the file from Google Cloud Datastore
-    client.delete(key)
-    
-    return summary
+    return jsonify({'summary': summary})
 
 if __name__ == '__main__':
     app.run(debug=True)
+    

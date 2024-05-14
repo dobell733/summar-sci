@@ -70,18 +70,33 @@ def split_text_into_chunks(text, chunk_size):
     return [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
 
 
-def format_summary(summary):
-    # Add paragraph breaks
-    formatted_summary = re.sub(r'(?<!\n)\n(?!\n)', '\n\n', summary)
+# def format_summary(summary):
+#     # Add paragraph breaks
+#     formatted_summary = re.sub(r'(?<!\n)\n(?!\n)', '\n\n', summary)
     
-    # Wrap the text into paragraphs
-    paragraphs = formatted_summary.split('\n\n')
-    formatted_paragraphs = [textwrap.fill(p, width=80) for p in paragraphs]
+#     # Wrap the text into paragraphs
+#     # paragraphs = formatted_summary.split('\n\n')
+#     # formatted_paragraphs = [textwrap.fill(p, width=80) for p in paragraphs]
     
-    return '\n\n'.join(formatted_paragraphs)
+#     return '\n\n'.join(formatted_paragraphs)
 
 
 def split_into_paragraphs(text, sentences_per_paragraph=5):
+    """
+    Splits the given text into paragraphs, with a specified number of sentences per paragraph.
+
+    Args:
+        text (str): The input text to be split into paragraphs.
+        sentences_per_paragraph (int, optional): The number of sentences per paragraph. Defaults to 5.
+
+    Returns:
+        str: The text split into paragraphs, separated by two newline characters.
+
+    Example:
+        >>> text = "This is a sample text. It has multiple sentences. Each sentence is separated by a period."
+        >>> split_into_paragraphs(text, sentences_per_paragraph=2)
+        'This is a sample text. It has multiple sentences.\\n\\nEach sentence is separated by a period.'
+    """
     # Split the text into individual sentences
     sentences = re.findall(r'[^.!?]+[.!?]', text)
     
