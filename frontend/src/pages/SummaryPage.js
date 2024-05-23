@@ -12,15 +12,17 @@ const ArticleSummary = () => {
 
   return (
       <div class="summary-container">
-      <h1>Article Summary</h1>
-      {state && (
-        <div class="summary-content">
-          {state.split('\n\n').map((paragraph, index) => (
-            <p key={index} className="paragraph-indent">{paragraph}</p>
-          ))}
+        <h1>Article Summary</h1>
+        {state && (
+          <div class="summary-content">
+            {state.split('\n\n').map((paragraph, index) => (
+              <p key={index} className="paragraph-indent">{paragraph}</p>
+            ))}
+          </div>
+        )}
+        <div class = "upload-container">
+          <button onClick={goHome} class="submit">Go Back to Home</button>
         </div>
-      )}
-      <button onClick={goHome}>Go Back to Home</button>
       </div>
   );
 }

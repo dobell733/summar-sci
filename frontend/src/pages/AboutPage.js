@@ -33,7 +33,7 @@ function AboutPage() {
                         </div>
                     </div>
                     <div class="card-details">
-                        <p>Originally a biomedical researcher in the field of cancer immunology, I transitioned into Computer Science due to the intrigue and passion I felt when initially coding and piecing together different technical problems and solutions. I am graduating from my Computer Science Bachelors in Science degree from Oregon State University in June 2024 and hoping to pursue a career in web development or cloud computing.</p>
+                        <p>Originally a biomedical researcher in the field of cancer immunology, I transitioned into Computer Science due to the intrigue and excitement I felt when piecing together different technical problems and solutions. I am graduating from my Computer Science Bachelors degree from Oregon State University in June 2024 and hoping to pursue a career in web development or cloud computing.</p>
                     </div>
                 </div>
                 <div class="card">
