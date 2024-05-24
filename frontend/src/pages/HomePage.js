@@ -37,17 +37,6 @@ const FileUpload = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
 
-      // // Check if file is selcted
-      // if (file.size === undefined ) {
-      //   return;
-      // }
-      // // Checks file size
-      // if (file.size > 2000000 ) {
-      //   // window.alert(file.size);
-      //   window.alert("File is too large. Please enter files with size < 2000 KB.");
-      //   return;
-      // }
-
       if (!file) {
         return;
       }
@@ -66,7 +55,6 @@ const FileUpload = () => {
   
         if (response.ok) {
             const data = await response.json();
-            console.log(data.summary);
             navigate('/summary', {state: data.summary});
         } else {
             console.error('Failed to upload file or retrieve summary.');

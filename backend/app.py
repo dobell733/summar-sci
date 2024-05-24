@@ -28,7 +28,8 @@ async def summarize():
 
     # Save the file to Google Cloud Storage
     storage_client = storage.Client()
-    bucket_name = 'summar-sci'
+    # bucket_name = 'summar-sci'
+    bucket_name = 'temporary_reasearch_article_storage'
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(pdf_file.filename) # Create blob with the name of the file
     blob.upload_from_file(pdf_file) # Upload the file to the blob

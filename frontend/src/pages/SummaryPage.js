@@ -16,7 +16,7 @@ const ArticleSummary = () => {
         {state && (
           <div className="summary-content">
             {state.split('\n\n').map((paragraph, index) => (
-              <p key={index} classNameName="paragraph-indent">{paragraph}</p>
+              <p key={index} className="paragraph-indent">{paragraph}</p>
             ))}
           </div>
         )}

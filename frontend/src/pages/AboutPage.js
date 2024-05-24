@@ -1,5 +1,4 @@
 //About page
-
 import React from 'react';
 
 
