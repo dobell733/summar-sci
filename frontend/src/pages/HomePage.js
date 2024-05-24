@@ -31,7 +31,7 @@ const FileUpload = () => {
       e.preventDefault();
 
       // Check if file is selcted
-      if (file.size == undefined ) {
+      if (file == null ) {
         return;
       }
       // Checks file size
