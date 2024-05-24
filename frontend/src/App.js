@@ -1,5 +1,5 @@
 //import dependencies
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 //import components and pages
@@ -16,20 +16,23 @@ import './App.css';
 function App() {
   return (
     <BrowserRouter>
-      <Nav />
-      <Routes>
-        <Route path="/" element={<FileUpload />} />
-        <Route path="/about" element={<AboutPage />} /> 
-        <Route path="/help" element={<HelpPage />} /> 
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path='/summary' element = {<ArticleSummary />} />
-      </Routes>
-
-      <footer>
-        <p><cite>&copy; 2024 Aaron Anderson, Dominic Bell, Jonathan Lau </cite></p>
-      </footer>
+      <div className="app-container">
+        <Nav />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<FileUpload />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/help" element={<HelpPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path='/summary' element={<ArticleSummary />} />
+          </Routes>
+        </main>
+        <footer className="footer">
+          <p>&copy; 2024 Aaron Anderson, Dominic Bell, Jonathan Lau</p>
+        </footer>
+      </div>
     </BrowserRouter>
-    );
-  }
+  );
+}
 
 export default App;
