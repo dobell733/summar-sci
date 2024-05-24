@@ -8,7 +8,7 @@ import { GrUploadOption } from "react-icons/gr";
 
 
 const FileUpload = () => {
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState('');
     const navigate = useNavigate();
     const [loading, setloading] = useState(false);
     const inputRef = useRef();
