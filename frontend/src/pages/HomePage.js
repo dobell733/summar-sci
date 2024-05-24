@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -15,6 +15,13 @@ const FileUpload = () => {
 
     const handleFileChange = (e) => {
       if (e.target.files && e.target.files.length > 0) {
+        const selectedFile = e.target.files[0];
+        // Check file size
+        if (selectedFile.size > 2000000) {
+          window.alert("File is too large. Please enter files with size < 2000 KB.");
+          return;
+        }
+
         setFile(e.target.files[0]);
       }
     };
@@ -30,14 +37,18 @@ const FileUpload = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
 
-      // Check if file is selcted
-      if (file.size == undefined ) {
-        return;
-      }
-      // Checks file size
-      if (file.size > 2000000 ) {
-        // window.alert(file.size);
-        window.alert("File is too large. Please enter files with size < 2000 kb.");
+      // // Check if file is selcted
+      // if (file.size === undefined ) {
+      //   return;
+      // }
+      // // Checks file size
+      // if (file.size > 2000000 ) {
+      //   // window.alert(file.size);
+      //   window.alert("File is too large. Please enter files with size < 2000 KB.");
+      //   return;
+      // }
+
+      if (!file) {
         return;
       }
 
@@ -67,17 +78,17 @@ const FileUpload = () => {
   
     return (
       <>
-        <div class="upload-container">
+        <div className="upload-container">
           <p></p>
-          <p>Please upload a scientific article in the form of a pdf below and press the Submit button for a SummarSci summary. The maximum file size is 2000 kb.</p>
+          <p>Please upload a scientific article in the form of a pdf below and press the Submit button for a SummarSci summary. The maximum file size is 2000 KB.</p>
           
           <input type="file" ref = {inputRef} style = {{display: "none"}} onChange = {handleFileChange} accept=".pdf"/>
 
-          <button class = "file-btn" onClick = {onChooseFile}>
+          <button className = "file-btn" onClick = {onChooseFile}>
             <span> <GrUploadOption/> </span> Upload File
           </button>
 
-          {file && <div class = "selected-file">
+          {file && <div className = "selected-file">
           <p>{file.name}</p>
           
           <button onClick = {removeFile}>
@@ -91,7 +102,7 @@ const FileUpload = () => {
           </form>
 
 
-          {loading ? <div class="loader"></div>: null}
+          {loading ? <div className="loader"></div>: null}
           {loading ? <p>Loading...</p>: null}
 
         </div>

@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 function Nav() {
   return (
     <nav className="nav">
-      <h href="/" className="site-title">SummarSci</h>
+      <Link to="/" className="site-title">
+        SummarSci
+      </Link>
       <ul>
         <li>
           <Link to="/">Home</Link>

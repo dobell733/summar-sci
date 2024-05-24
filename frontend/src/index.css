@@ -44,12 +44,12 @@ body {
 }
 
 .site-title {
+  color: var(--Teal) !important;
   font-size: 2.5rem;
   font-family: "Lato", sans-serif;
   font-weight: bold;
   font-style: normal;
   text-decoration: none;
-  color: var(--Teal);
   height: 100%;
   display: flex;
   align-items: center;
@@ -147,16 +147,27 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-bottom: 0rem;
+  border: .1rem solid var(--LightGray);
+  border-radius: 1rem;
   text-align: center;
 }
 
 /* Team Card */
-.card-container {
+/* .card-container {
   margin: 1rem;
   padding: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
+} */
+
+.card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1rem;
+  padding: 1rem;
 }
 
 .card {
@@ -170,7 +181,7 @@ body {
   margin: 1rem;
 }
 
-.card:hover {
+/* .card:hover {
   background-color: white;
   border: .1rem solid var(--Teal);
   padding: 1rem;
@@ -179,6 +190,10 @@ body {
   width: 20rem;
   margin: 1rem;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+} */
+.card:hover {
+  border-color: var(--Teal);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .card-header {
@@ -392,4 +407,53 @@ p {
 .submit button:hover {
   color: rgb(187, 237, 252);
   background-color: rgb(9, 15, 186);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.footer {
+  background-color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Media query for screens wider than 1500px */
+@media (min-width: 1500px) {
+  .main-content {
+    margin: 0 15rem; /* Increase the left and right margins so content isn't so spread out */
+  }
+}
+
+/* Media query for screens wider than 1800px */
+@media (min-width: 1800px) {
+  .main-content {
+    margin: 0 30rem; /* Further increase the left and right margins */
+  }
+}
+
+@media (max-width: 850px) {
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+iframe {
+  border: none; 
+  margin: none;
+  width: 640px;
+  height: 689px;
 }
