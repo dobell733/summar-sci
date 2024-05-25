@@ -1,6 +1,9 @@
 import asyncio
 import aiohttp
 from dotenv import load_dotenv
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
 from openai import OpenAI
 import os
 import sys
@@ -17,34 +20,62 @@ from .text_processor import (
 #       I am crediting the use of these tools per the instructions here: https://canvas.oregonstate.edu/courses/1958108/pages/exploration-can-and-should-you-use-ai-tools-in-capstone-2?module_item_id=24265452
 
 load_dotenv()
+nltk.download('punkt')
 
-CLIENT = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))  # Get the API key from the .env file
-# ARTICLE_PATH = './test_pdfs/covid_article.pdf' # This is the path to the PDF file to be summarized, it will need to point to temporary cloud storage path when deployed.
-CHUNK_SIZE = 4000  # This determines the size (in characters) of each chunk of text to be summarized
-SUMMARY_LENGTH = 8000  # This determines the desired length (in characters) of the final summary
-                       # We could give the user options for (short, medium, long) summaries and change this value dynamically.
+CLIENT = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))  # Needs to be set in .env file
 
-async def fetch_summary(session, chunk, summary_length, num_chunks):
+def estimate_complexity(text):
+    """
+    Estimates the complexity of a given text based on average sentence length and lexical diversity.
+
+    Args:
+        text (str): The input text to be analyzed.
+
+    Returns:
+        int: A recommended token count based on the estimated complexity of the text.
+    """
+    # Tokenize the text into sentences and words
+    sentences = sent_tokenize(text)
+    words = word_tokenize(text)
+    num_sentences = len(sentences)
+    num_words = len(words)
+
+    # Calculate average sentence length
+    avg_sentence_length = num_words / num_sentences if num_sentences > 0 else 0
+
+    # lexical diversity indicates the range or "variety" of vocabulary that appears in a text segment
+    unique_words = set(words)
+    lexical_diversity = len(unique_words) / num_words if num_words > 0 else 0
+
+    # Define complexity thresholds
+    if avg_sentence_length > 20 and lexical_diversity > 0.5:
+        return 500  # More tokens for high complexity
+    elif avg_sentence_length > 15 or lexical_diversity > 0.3:
+        return 300  # Medium complexity
+    else:
+        return 100  # Fewer tokens for simpler text
+
+
+async def fetch_summary(session, chunk, num_chunks):
     """
     Fetches a summary of the given chunk using the OpenAI API.
 
     Args:
         session (aiohttp.ClientSession): The client session to make the API request.
         chunk (str): The text chunk to be summarized.
-        summary_length (int): The desired length of the final summary.
         num_chunks (int): The total number of chunks.
 
     Returns:
         str: The summary of the chunk.
     """
-    max_tokens = summary_length // num_chunks   # This ensures each chunk gets a proportional summary regardless of the length of the original text.
+    max_tokens = estimate_complexity(chunk)  # Dynamically determine tokens based on complexity of the text
     async with session.post('https://api.openai.com/v1/chat/completions', json={
         "model": "gpt-3.5-turbo",
         "messages": [
-            {"role": "system", "content": f"Summarize this: {chunk}"}  # TODO: See if there's a more meaningful way to prompt the AI to summarize the text.
+            {"role": "system", "content": f"Summarize this: {chunk}"}
         ],
-        "max_tokens": max_tokens,            # I realized that instead of saying "Summarize this in 'n' sentences", we can just pass a max_tokens parameter.
-        # temperature = 0.7,                 # We can also modify these parameters to control how the OpenAI API generates the output
+        "max_tokens": max_tokens,            
+        # temperature = 0.7,               
         # top_p = 0.9,
         # frequency_penalty = 0.5,
         # presence_penalty = 0.1,
@@ -56,20 +87,19 @@ async def fetch_summary(session, chunk, summary_length, num_chunks):
         return result['choices'][0]['message']['content']
 
 
-async def summarize_chunks(chunks, summary_length):
+async def summarize_chunks(chunks):
     """
     Summarizes the given chunks using the OpenAI API.
 
     Args:
         chunks (list): A list of text chunks to be summarized.
-        summary_length (int): The desired length (in characters) of the final summary.
 
     Returns:
         list: A list of summaries for each chunk.
     """
     async with aiohttp.ClientSession() as session:
         num_chunks = len(chunks)
-        tasks = [fetch_summary(session, chunk, summary_length, num_chunks) for chunk in chunks]
+        tasks = [fetch_summary(session, chunk, num_chunks) for chunk in chunks]
         summaries = await asyncio.gather(*tasks)
     return summaries
 
@@ -89,21 +119,20 @@ async def summarize_file(pdf_path):
     text_from_introduction = extract_from_introduction(cleaned_text)
     final_text = remove_references(text_from_introduction)
 
-    chunks = split_text_into_chunks(final_text, CHUNK_SIZE)
-    summaries = await summarize_chunks(chunks, SUMMARY_LENGTH)
+    chunks = split_text_into_chunks(final_text)
+    summaries = await summarize_chunks(chunks)
 
     joined_summary = ' '.join(summaries)
     final_summary = split_into_paragraphs(joined_summary, 9)
-    # final_summary = format_summary(split_summary) this is pointless, formatting is lost when serialized and sent back to the frontend
 
     return final_summary
 
 
-async def main(pdf_path):
-    summary = await summarize_file(pdf_path)
-    print(summary)
+# async def main(pdf_path):
+#     summary = await summarize_file(pdf_path)
+#     print(summary)
 
-if __name__ == "__main__":
-    pdf_path = sys.argv[1]  # Get the PDF path from command line arguments, this doesn't work
-    asyncio.run(main(pdf_path))
+# if __name__ == "__main__":
+#     pdf_path = sys.argv[1]  # Get the PDF path from command line arguments, this doesn't work
+#     asyncio.run(main(pdf_path))
     
