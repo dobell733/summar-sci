@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Nav from './components/Nav.js';
 import FileUpload from './pages/HomePage.js';
 import AboutPage from './pages/AboutPage.js';
-import HelpPage from './pages/HelpPage.js';
 import ContactPage from './pages/ContactPage.js';
 import ArticleSummary from './pages/SummaryPage.js';
 
@@ -22,7 +21,6 @@ function App() {
           <Routes>
             <Route path="/" element={<FileUpload />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/help" element={<HelpPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path='/summary' element={<ArticleSummary />} />
           </Routes>

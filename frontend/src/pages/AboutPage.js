@@ -28,7 +28,7 @@ function AboutPage() {
                     <div className="card-header">
                         <img className="circular-image" src="images/aaron.jpg" alt="avatar"/>
                         <div className="name">
-                            <p><strong>Aaron Anderson</strong><br></br>Frontend Lead</p>
+                            <p><strong>Aaron Anderson</strong><br></br>Frontend / Backend Support</p>
                         </div>
                     </div>
                     <div className="card-details">
@@ -50,11 +50,11 @@ function AboutPage() {
                     <div className="card-header">
                         <img className="circular-image" src="images/business-avatar.png" alt="avatar"/>
                         <div className="name">
-                            <p><strong>John Doe</strong><br></br>Frontend Engineer</p>
+                            <p><strong>Jonathan Lau</strong><br></br>Frontend Lead</p>
                         </div>
                     </div>
                     <div className="card-details">
-                        <p>I'm a front end developer with five years of experience in web development. I've worked on a variety of projects for clients in the retail, travel, and healthcare industries. I'm passionate about creating great user experiences and have a strong understanding of usability and accessibility standards.</p>
+                        <p>Initially a research associate working on vaccine development, I pivoted into Computer Science after realizing my passion for coding. I learned that I not enjoy solving problems, but that I am also excited to work on products that have an impact on the lives of everyday people. I am graduating with a Bachelor of Science in Computer Science from Oregon State in June 2024, and I am excited to continue growing my skills as a I pursue a career in the field.</p>
                     </div>
                 </div>
             </div>
