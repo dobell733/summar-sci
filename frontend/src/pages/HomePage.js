@@ -48,12 +48,12 @@ const FileUpload = () => {
         // Shows loading
         setloading(true)
 
-        const response = await fetch('http://127.0.0.1:5000/summarize', {
+        const response = await fetch('https://summar-sci.uc.r.appspot.com/summarize', {
            method: 'POST',
            body: formData
         });
   
-        if (response.ok) {
+        if (response.status == 200) {
             const data = await response.json();
             navigate('/summary', {state: data.summary});
         } else {
@@ -69,6 +69,9 @@ const FileUpload = () => {
         <div className="upload-container">
           <p></p>
           <p>Please upload a scientific article in the form of a pdf below and press the Submit button for a SummarSci summary. The maximum file size is 2000 KB.</p>
+
+          <p>*Summary is generated using GPT-3.5-turbo-0125, please make sure to reference and double-check all information received by SummarSci.</p>
+
           
           <input type="file" ref = {inputRef} style = {{display: "none"}} onChange = {handleFileChange} accept=".pdf"/>
 
